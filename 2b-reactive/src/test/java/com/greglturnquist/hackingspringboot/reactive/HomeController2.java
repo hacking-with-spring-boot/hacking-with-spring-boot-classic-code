@@ -16,13 +16,11 @@
 
 package com.greglturnquist.hackingspringboot.reactive;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import reactor.core.publisher.Mono;
 
-import com.greglturnquist.hackingspringboot.reactive.CartService;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  * @author Greg Turnquist
@@ -30,19 +28,18 @@ import com.greglturnquist.hackingspringboot.reactive.CartService;
 @Controller
 public class HomeController2 {
 
-    private final CartService cartService;
+	private final CartService cartService;
 
-    public HomeController2(CartService cartService) {
-        this.cartService = cartService;
-    }
+	public HomeController2(CartService cartService) {
+		this.cartService = cartService;
+	}
 
-    // tag::4[]
-    @PostMapping("/add/{id}")
-    Mono<String> addToCart(@PathVariable String id) {
-        return this.cartService.addToCart("My Cart", id) //
-            .thenReturn("redirect:/");
-    }
-    // end::4[]
-
+	// tag::4[]
+	@PostMapping("/add/{id}")
+	Mono<String> addToCart(@PathVariable String id) {
+		return this.cartService.addToCart("My Cart", id) //
+				.thenReturn("redirect:/");
+	}
+	// end::4[]
 
 }

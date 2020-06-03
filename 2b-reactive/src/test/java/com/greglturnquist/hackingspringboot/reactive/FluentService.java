@@ -16,14 +16,13 @@
 
 package com.greglturnquist.hackingspringboot.reactive;
 
-import org.springframework.data.mongodb.core.ReactiveFluentMongoOperations;
-import org.springframework.stereotype.Service;
+import static org.springframework.data.mongodb.core.query.Criteria.*;
+import static org.springframework.data.mongodb.core.query.Query.*;
+
 import reactor.core.publisher.Flux;
 
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Query.query;
-
-import com.greglturnquist.hackingspringboot.reactive.Item;
+import org.springframework.data.mongodb.core.ReactiveFluentMongoOperations;
+import org.springframework.stereotype.Service;
 
 /**
  * @author Greg Turnquist

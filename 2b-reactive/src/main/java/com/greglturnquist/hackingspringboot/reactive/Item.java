@@ -16,9 +16,9 @@
 
 package com.greglturnquist.hackingspringboot.reactive;
 
-import org.springframework.data.annotation.Id;
-
 import java.util.Objects;
+
+import org.springframework.data.annotation.Id;
 
 // tag::code[]
 public class Item {

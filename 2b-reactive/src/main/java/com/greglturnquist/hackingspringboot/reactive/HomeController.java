@@ -16,9 +16,10 @@
 
 package com.greglturnquist.hackingspringboot.reactive;
 
-import org.springframework.web.bind.annotation.DeleteMapping;
 import reactor.core.publisher.Mono;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,7 +39,7 @@ public class HomeController {
 	private InventoryService inventoryService;
 
 	public HomeController(ItemRepository itemRepository, CartRepository cartRepository,
-			InventoryService inventoryService) {
+						  InventoryService inventoryService) {
 		this.itemRepository = itemRepository;
 		this.cartRepository = cartRepository;
 		this.inventoryService = inventoryService;

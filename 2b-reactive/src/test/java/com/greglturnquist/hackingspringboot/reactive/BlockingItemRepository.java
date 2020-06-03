@@ -17,8 +17,6 @@ package com.greglturnquist.hackingspringboot.reactive;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.greglturnquist.hackingspringboot.reactive.Item;
-
 /**
  * @author Greg Turnquist
  */

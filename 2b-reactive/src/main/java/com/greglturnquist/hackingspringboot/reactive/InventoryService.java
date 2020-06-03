@@ -16,16 +16,16 @@
 
 package com.greglturnquist.hackingspringboot.reactive;
 
+import static org.springframework.data.mongodb.core.query.Criteria.*;
+import static org.springframework.data.mongodb.core.query.Query.*;
+
+import reactor.core.publisher.Flux;
+
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
 import org.springframework.data.mongodb.core.ReactiveFluentMongoOperations;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
-
-import static org.springframework.data.mongodb.core.query.Criteria.byExample;
-import static org.springframework.data.mongodb.core.query.Criteria.where;
-import static org.springframework.data.mongodb.core.query.Query.query;
 
 /**
  * @author Greg Turnquist
@@ -39,8 +39,8 @@ class InventoryService {
 	private ReactiveFluentMongoOperations fluentOperations;
 
 	InventoryService(ItemRepository repository, //
-			ItemByExampleRepository exampleRepository, //
-			ReactiveFluentMongoOperations fluentOperations) {
+					 ItemByExampleRepository exampleRepository, //
+					 ReactiveFluentMongoOperations fluentOperations) {
 		this.repository = repository;
 		this.exampleRepository = exampleRepository;
 		this.fluentOperations = fluentOperations;
