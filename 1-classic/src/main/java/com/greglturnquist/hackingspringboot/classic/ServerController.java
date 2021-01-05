@@ -19,7 +19,6 @@ package com.greglturnquist.hackingspringboot.classic;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,14 +31,14 @@ public class ServerController {
 		this.kitchen = kitchen;
 	}
 
-	@GetMapping(value = "/server", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	@GetMapping("/server")
 	List<Dish> serveDishes() {
 		return this.kitchen.getDishes();
 	}
 	// end::controller[]
 
 	// tag::deliver[]
-	@GetMapping(value = "/served-dishes", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	@GetMapping("/served-dishes")
 	List<Dish> deliverDishes() {
 		return this.kitchen.getDishes().stream() //
 				.map(dish -> Dish.deliver(dish)) //

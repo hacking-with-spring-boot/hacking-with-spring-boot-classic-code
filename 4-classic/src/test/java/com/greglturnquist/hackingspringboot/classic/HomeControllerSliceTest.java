@@ -22,24 +22,32 @@ import static org.mockito.Mockito.*;
 import java.util.Arrays;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.client.MockMvcWebTestClient;
 
 /**
  * @author Greg Turnquist
  */
 // tag::code[]
-@WebFluxTest(HomeController.class) // <1>
+@WebMvcTest(HomeController.class) // <1>
 public class HomeControllerSliceTest {
 
-	@Autowired // <2>
 	private WebTestClient client;
 
 	@MockBean // <3>
 	InventoryService inventoryService;
+
+	@BeforeEach
+	void setUp(@Autowired MockMvc mockMvc) {
+		this.client = MockMvcWebTestClient.bindTo(mockMvc).build();
+	}
 
 	@Test
 	void homePage() {

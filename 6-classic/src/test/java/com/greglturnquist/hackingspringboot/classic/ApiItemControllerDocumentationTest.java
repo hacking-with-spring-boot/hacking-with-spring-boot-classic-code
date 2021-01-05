@@ -19,31 +19,41 @@ import static org.mockito.Mockito.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.*;
 
-import reactor.core.publisher.Mono;
-
 import java.util.Arrays;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.client.MockMvcWebTestClient;
 
 /**
  * @author Greg Turnquist
  */
 // tag::intro[]
-@WebFluxTest(controllers = ApiItemController.class) // <1>
+@WebMvcTest(controllers = ApiItemController.class) // <1>
 @AutoConfigureRestDocs // <2>
 public class ApiItemControllerDocumentationTest {
 
-	@Autowired private WebTestClient webTestClient; // <3>
+	private WebTestClient webTestClient; // <3>
 
 	@MockBean InventoryService service; // <4>
 
 	@MockBean ItemRepository repository; // <5>
+
+	@BeforeEach
+	void setUp(@Autowired MockMvc mockMvc, @Autowired RestDocumentationContextProvider restDocumentation) {
+		this.webTestClient = MockMvcWebTestClient //
+				.bindTo(mockMvc) //
+				.filter(documentationConfiguration(restDocumentation)) //
+				.build();
+	}
 	// end::intro[]
 
 	// tag::test1[]
@@ -65,13 +75,13 @@ public class ApiItemControllerDocumentationTest {
 	@Test
 	void postNewItem() {
 		when(repository.save(any())).thenReturn( //
-				Mono.just(new Item("1", "Alf alarm clock", "nothing important", 19.99)));
+				new Item("1", "Alf alarm clock", "nothing important", 19.99));
 
 		this.webTestClient.post().uri("/api/items") // <1>
 				.bodyValue(new Item("Alf alarm clock", "nothing important", 19.99)) // <2>
 				.exchange() //
 				.expectStatus().isCreated() // <3>
-				.expectBody() //
+				.expectBody(Item.class) //
 				.consumeWith(document("post-new-item", preprocessResponse(prettyPrint()))); // <4>
 	}
 	// end::test2[]

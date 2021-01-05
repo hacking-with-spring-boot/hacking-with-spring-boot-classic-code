@@ -80,11 +80,12 @@ public class AffordancesItemController {
 				.withSelfRel() //
 				.andAffordance(afford(controller.addNewItem(null))); // <1>
 
-		List<EntityModel<Item>> entityModels = StreamSupport.stream(this.repository.findAll().spliterator(), false)
-				.map(item -> findOne(item.getId())) //
-				.collect(Collectors.toList());
+		List<EntityModel<Item>> entityModels = //
+				StreamSupport.stream(this.repository.findAll().spliterator(), false) // <2>
+						.map(item -> findOne(item.getId())) // <3>
+						.collect(Collectors.toList());
 
-		return CollectionModel.of(entityModels, aggregateRoot);
+		return CollectionModel.of(entityModels, aggregateRoot); // <4>
 	}
 	// end::find-all[]
 
@@ -95,7 +96,7 @@ public class AffordancesItemController {
 
 		Link selfLink = linkTo(controller.findOne(id)) //
 				.withSelfRel() //
-				.andAffordance(afford(controller.updateItem(null, id)));
+				.andAffordance(afford(controller.updateItem(null, id))); // <3>
 
 		Link aggregateLink = linkTo(controller.findAll()) //
 				.withRel(IanaLinkRelations.ITEM);
@@ -109,11 +110,11 @@ public class AffordancesItemController {
 	// tag::add-new-item[]
 	@PostMapping("/affordances/items") // <1>
 	ResponseEntity<?> addNewItem(@RequestBody EntityModel<Item> itemEntity) { // <2>
-		Item content = itemEntity.getContent();
-		Item savedItem = this.repository.save(content);
-		EntityModel<Item> newModel = findOne(savedItem.getId());
+		Item content = itemEntity.getContent(); // <3>
+		Item savedItem = this.repository.save(content); // <4>
+		EntityModel<Item> newModel = findOne(savedItem.getId()); // <5>
 
-		return ResponseEntity //
+		return ResponseEntity // <6>
 				.created(newModel.getRequiredLink(IanaLinkRelations.SELF).toUri()) //
 				.body(newModel.getContent()); //
 	}
@@ -127,10 +128,10 @@ public class AffordancesItemController {
 		Item newItem = new Item(id, content.getName(), // <3>
 				content.getDescription(), content.getPrice());
 
-		this.repository.save(newItem);
+		this.repository.save(newItem); // <4>
 
 		return ResponseEntity.noContent() //
-				.location(findOne(id).getRequiredLink(IanaLinkRelations.SELF).toUri()) //
+				.location(findOne(id).getRequiredLink(IanaLinkRelations.SELF).toUri()) // <5>
 				.build();
 	}
 	// end::update-item[]

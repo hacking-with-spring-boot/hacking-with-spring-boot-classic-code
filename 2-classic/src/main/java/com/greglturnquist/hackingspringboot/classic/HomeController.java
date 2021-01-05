@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * @author Greg Turnquist
@@ -45,9 +46,9 @@ public class HomeController {
 	@GetMapping
 	String home(Model model) { // <1>
 		model.addAttribute("items", //
-				this.itemRepository.findAll()); // <3>
+				this.itemRepository.findAll()); // <2>
 		model.addAttribute("cart", //
-				this.cartRepository.findById("My Cart") // <4>
+				this.cartRepository.findById("My Cart") // <3>
 						.orElseGet(() -> new Cart("My Cart")));
 		return "home";
 	}
@@ -61,13 +62,13 @@ public class HomeController {
 
 		cart.getCartItems().stream() //
 				.filter(cartItem -> cartItem.getItem().getId().equals(id)) //
-				.findAny() //
+				.findAny() // <4>
 				.map(cartItem -> {
 					cartItem.increment();
 					return cart;
 				}) //
 				.orElseGet(() -> {
-					this.itemRepository.findById(id) //
+					this.itemRepository.findById(id) // <5>
 							.map(item -> new CartItem(item)) //
 							.map(cartItem -> {
 								cart.getCartItems().add(cartItem);
@@ -77,14 +78,14 @@ public class HomeController {
 					return cart;
 				});
 
-		this.cartRepository.save(cart);
+		this.cartRepository.save(cart); // <6>
 
-		return "redirect:/";
+		return "redirect:/"; // <7>
 	}
 	// end::3[]
 
 	@PostMapping
-	String createItem(@ModelAttribute Item newItem) {
+	String createItem(@RequestBody Item newItem) {
 		this.itemRepository.save(newItem);
 		return "redirect:/";
 	}

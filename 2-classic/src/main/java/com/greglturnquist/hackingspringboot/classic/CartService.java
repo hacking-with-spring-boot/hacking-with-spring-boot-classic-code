@@ -48,11 +48,11 @@ class CartService {
 				.orElseGet(() -> {
 					Item item = this.itemRepository.findById(id) //
 							.orElseThrow(() -> new IllegalStateException("Can't seem to find Item type " + id));
-					cart.getCartItems().add(new CartItem(item));
+					cart.getCartItems().add(new CartItem(item)); // <4>
 					return cart;
 				});
 
-		return this.cartRepository.save(cart);
+		return this.cartRepository.save(cart); // <5>
 	}
 }
 // end::code[]

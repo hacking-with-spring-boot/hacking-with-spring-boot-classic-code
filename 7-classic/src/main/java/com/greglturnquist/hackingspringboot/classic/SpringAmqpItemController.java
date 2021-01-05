@@ -46,9 +46,9 @@ public class SpringAmqpItemController {
 	// tag::post[]
 	@PostMapping("/items") // <1>
 	ResponseEntity<?> addNewItemUsingSpringAmqp(@RequestBody Item item) { // <2>
-		this.template.convertAndSend( // <5>
+		this.template.convertAndSend( // <3>
 				"hacking-spring-boot", "new-items-spring-amqp", item);
-		return ResponseEntity.created(URI.create("/items")).build();
+		return ResponseEntity.created(URI.create("/items")).build(); // <4>
 	}
 	// end::post[]
 }

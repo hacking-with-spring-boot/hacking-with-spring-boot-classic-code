@@ -17,31 +17,36 @@ package com.greglturnquist.hackingspringboot.classic;
 
 import static org.assertj.core.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.client.MockMvcWebTestClient;
 import org.testcontainers.containers.RabbitMQContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 /**
  * @author Greg Turnquist
  */
 // tag::setup[]
 @SpringBootTest // <1>
-@AutoConfigureWebTestClient // <2>
 @Testcontainers // <3>
 @ContextConfiguration // <4>
+@AutoConfigureMockMvc
 public class RabbitTest {
 
-	@Container static RabbitMQContainer container = new RabbitMQContainer(); // <5>
+	@Container static RabbitMQContainer container = new RabbitMQContainer(
+			DockerImageName.parse("rabbitmq").withTag("3.7.25-management-alpine")); // <5>
 
-	@Autowired WebTestClient webTestClient; // <6>
+	WebTestClient webTestClient; // <6>
 
 	@Autowired ItemRepository repository; // <7>
 
@@ -50,6 +55,14 @@ public class RabbitTest {
 		registry.add("spring.rabbitmq.host", container::getContainerIpAddress);
 		registry.add("spring.rabbitmq.port", container::getAmqpPort);
 	}
+
+	@BeforeEach
+	void setUp(@Autowired MockMvc mockMvc) {
+		this.webTestClient = MockMvcWebTestClient //
+				.bindTo(mockMvc) //
+				.build();
+	}
+
 	// end::setup[]
 
 	// tag::spring-amqp-test[]
@@ -71,11 +84,11 @@ public class RabbitTest {
 
 		Thread.sleep(2000L); // <4>
 
-		Iterable<Item> results = this.repository.findAll();
+		Iterable<Item> items = this.repository.findAll(); // <5>
 
-		assertThat(results).flatExtracting("name").containsExactly("Alf Alarm clock", "Smurf TV tray");
-		assertThat(results).flatExtracting("description").containsExactly("nothing important", "nothing important");
-		assertThat(results).flatExtracting("price").containsExactly(19.99, 29.99);
+		assertThat(items).flatExtracting(Item::getName).containsExactly("Alf alarm clock", "Smurf TV tray");
+		assertThat(items).flatExtracting(Item::getDescription).containsExactly("nothing important", "nothing important");
+		assertThat(items).flatExtracting(Item::getPrice).containsExactly(19.99, 29.99);
 	}
 	// end::spring-amqp-test[]
 

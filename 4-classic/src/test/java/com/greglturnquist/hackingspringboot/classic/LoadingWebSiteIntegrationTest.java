@@ -40,10 +40,10 @@ public class LoadingWebSiteIntegrationTest {
 	void test() {
 		client.get().uri("/").exchange() //
 				.expectStatus().isOk() //
-				.expectHeader().contentType(TEXT_HTML) //
+				.expectHeader().contentTypeCompatibleWith(TEXT_HTML) //
 				.expectBody(String.class) //
 				.consumeWith(exchangeResult -> {
-					assertThat(exchangeResult.getResponseBody()).contains("<a href=\"/add");
+					assertThat(exchangeResult.getResponseBody()).contains("<form method=\"post\" action=\"/add");
 				});
 	}
 }

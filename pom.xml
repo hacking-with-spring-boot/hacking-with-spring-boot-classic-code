@@ -36,34 +36,19 @@
 	</licenses>
 
 	<modules>
-		<module>1-reactive</module>
 		<module>1-classic</module>
-		<module>2-reactive</module>
-		<module>2b-reactive</module>
 		<module>2-classic</module>
 		<module>2b-classic</module>
-		<module>3-reactive</module>
 		<module>3-classic</module>
-		<module>4-reactive</module>
 		<module>4-classic</module>
-		<module>5-reactive</module>
 		<module>5-classic</module>
-		<module>6-reactive</module>
 		<module>6-classic</module>
-		<module>7-reactive</module>
 		<module>7-classic</module>
-		<module>8-reactive-server</module>
-		<module>8-reactive-client</module>
-		<module>9-classic-quick</module>
-		<module>9-classic-repository</module>
-		<module>9-classic-custom-config</module>
-		<module>9-classic-oauth</module>
-		<module>9-classic-method-security</module>
-		<module>9-reactive-quick</module>
-		<module>9-reactive-repository</module>
-		<module>9-reactive-custom-config</module>
-		<module>9-reactive-oauth</module>
-		<module>9-reactive-method-security</module>
+		<module>8-classic-quick</module>
+		<module>8-classic-repository</module>
+		<module>8-classic-custom-config</module>
+		<module>8-classic-oauth</module>
+		<module>8-classic-method-security</module>
 	</modules>
 
 </project>

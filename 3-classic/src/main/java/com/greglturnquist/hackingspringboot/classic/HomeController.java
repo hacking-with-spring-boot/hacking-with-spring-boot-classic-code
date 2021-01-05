@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * @author Greg Turnquist
@@ -64,7 +65,7 @@ public class HomeController {
 	}
 
 	@PostMapping
-	String createItem(@ModelAttribute Item newItem) {
+	String createItem(@RequestBody Item newItem) {
 		this.inventoryService.saveItem(newItem);
 		return "redirect:/";
 	}

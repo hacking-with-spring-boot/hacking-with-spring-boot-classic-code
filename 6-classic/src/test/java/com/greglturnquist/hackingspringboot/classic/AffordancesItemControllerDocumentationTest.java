@@ -22,13 +22,17 @@ import static org.springframework.restdocs.webtestclient.WebTestClientRestDocume
 import java.util.Arrays;
 import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.hateoas.MediaTypes;
+import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.client.MockMvcWebTestClient;
 
 /**
  * @author Greg Turnquist
@@ -38,11 +42,19 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 @AutoConfigureRestDocs // <2>
 public class AffordancesItemControllerDocumentationTest {
 
-	@Autowired private WebTestClient webTestClient; // <3>
+	private WebTestClient webTestClient; // <3>
 
 	@MockBean InventoryService service; // <4>
 
 	@MockBean ItemRepository repository; // <5>
+
+	@BeforeEach
+	void setUp(@Autowired MockMvc mockMvc, @Autowired RestDocumentationContextProvider restDocumentation) {
+		this.webTestClient = MockMvcWebTestClient //
+				.bindTo(mockMvc) //
+				.filter(documentationConfiguration(restDocumentation)) //
+				.build();
+	}
 	// end::intro[]
 
 	// tag::affordances[]

@@ -61,10 +61,10 @@ public class ApiItemController {
 
 		Item savedItem = this.repository.save(item);
 
-		return ResponseEntity //
+		return ResponseEntity // <3>
 				.created(URI.create("/api/items/" + //
 						savedItem.getId()))
-				.body(savedItem);
+				.body(savedItem); // <4>
 	}
 	// end::new-item[]
 
@@ -74,12 +74,12 @@ public class ApiItemController {
 			@RequestBody Item item, // <2>
 			@PathVariable String id) { // <3>
 
-		Item newItem = new Item(id, item.getName(), item.getDescription(), //
+		Item newItem = new Item(id, item.getName(), item.getDescription(), // <4>
 				item.getPrice());
 
-		this.repository.save(newItem);
+		this.repository.save(newItem); // <5>
 
-		return ResponseEntity.created(URI.create("/api/items/" + id)).build();
+		return ResponseEntity.created(URI.create("/api/items/" + id)).build(); // <6>
 	}
 	// end::replace-item[]
 }

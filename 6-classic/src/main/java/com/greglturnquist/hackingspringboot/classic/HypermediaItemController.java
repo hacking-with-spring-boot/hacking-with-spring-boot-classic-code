@@ -96,7 +96,7 @@ public class HypermediaItemController {
 		Link aggregateLink = linkTo(controller.findAll()) //
 				.withRel(IanaLinkRelations.ITEM); // <3>
 
-		return this.repository.findById(id) //
+		return this.repository.findById(id) // <4>
 				.map(item -> EntityModel.of(item, selfLink, aggregateLink)) //
 				.orElseThrow(() -> new IllegalStateException("Couldn't find item " + id));
 	}

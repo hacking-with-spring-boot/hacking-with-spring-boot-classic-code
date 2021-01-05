@@ -69,10 +69,10 @@ class InventoryServiceUnitTest { // <2>
 		Cart cart = inventoryService.addItemToCart("My Cart", "item1"); // <2>
 
 		assertThat(cart.getCartItems()).extracting(CartItem::getQuantity) //
-				.containsExactlyInAnyOrder(1); // <5>
+				.containsExactlyInAnyOrder(1); // <3>
 
 		assertThat(cart.getCartItems()).extracting(CartItem::getItem) //
-				.containsExactly(new Item("item1", "TV tray", "Alf TV tray", 19.99)); // <6>
+				.containsExactly(new Item("item1", "TV tray", "Alf TV tray", 19.99)); // <4>
 	}
 	// end::test[]
 

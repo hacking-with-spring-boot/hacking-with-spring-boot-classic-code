@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -88,7 +89,7 @@ public class HomeController {
 	// end::3[]
 
 	@PostMapping
-	String createItem(@ModelAttribute Item newItem) {
+	String createItem(@RequestBody Item newItem) {
 		this.itemRepository.save(newItem);
 		return "redirect:/";
 	}
@@ -106,8 +107,8 @@ public class HomeController {
 			@RequestParam(required = false) String description, //
 			@RequestParam boolean useAnd, //
 			Model model) {
-		model.addAttribute("results", inventoryService.searchByExample(name, description, useAnd));
-		return "home";
+		model.addAttribute("results", inventoryService.searchByExample(name, description, useAnd)); // <3>
+		return "home"; // <4>
 	}
 	// end::search[]
 }
