@@ -40,12 +40,12 @@ public class HomeControllerSliceTest {
 
 	private WebTestClient client;
 
-	@MockBean // <3>
+	@MockBean // <2>
 	InventoryService inventoryService;
 
 	@BeforeEach
 	void setUp(@Autowired MockMvc mockMvc) {
-		this.client = MockMvcWebTestClient.bindTo(mockMvc).build();
+		this.client = MockMvcWebTestClient.bindTo(mockMvc).build(); // <3>
 	}
 
 	@Test

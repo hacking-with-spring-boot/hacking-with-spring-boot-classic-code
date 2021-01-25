@@ -75,18 +75,4 @@ class InventoryServiceUnitTest { // <2>
 				.containsExactly(new Item(1, "TV tray", "Alf TV tray", 19.99)); // <4>
 	}
 	// end::test[]
-
-	// tag::test2[]
-	@Test
-	void alternativeWayToTest() { // <1>
-		Cart cart = inventoryService.addItemToCart("My Cart", 1);
-
-		assertThat(cart.getCartItems()).extracting(CartItem::getQuantity) //
-				.containsExactlyInAnyOrder(1); // <5>
-
-		assertThat(cart.getCartItems()).extracting(CartItem::getItem) //
-				.containsExactly(new Item(1, "TV tray", "Alf TV tray", 19.99)); // <6>
-	}
-	// end::test2[]
-
 }

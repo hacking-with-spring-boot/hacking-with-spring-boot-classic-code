@@ -43,7 +43,8 @@ public class LoadingWebSiteIntegrationTest {
 				.expectHeader().contentTypeCompatibleWith(TEXT_HTML) //
 				.expectBody(String.class) //
 				.consumeWith(exchangeResult -> {
-					assertThat(exchangeResult.getResponseBody()).contains("<form method=\"post\" action=\"/add");
+					assertThat(exchangeResult.getResponseBody()) //
+							.contains("<form method=\"post\" action=\"/add");
 				});
 	}
 }
