@@ -66,7 +66,7 @@ class InventoryService {
 					return cart;
 				}) //
 				.orElseGet(() -> {
-					this.itemRepository.findById(cartId) //
+					this.itemRepository.findById(itemId) //
 							.map(item -> new CartItem(item)) //
 							.map(cartItem -> {
 								cart.getCartItems().add(cartItem);

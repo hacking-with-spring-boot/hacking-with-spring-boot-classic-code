@@ -54,7 +54,7 @@ class InventoryService {
 		this.itemRepository.deleteById(id);
 	}
 
-	Cart addItemToCart(String cartId, String itemId) {
+	Cart addItemToCart(String cartId, Integer itemId) {
 		Cart cart = this.cartRepository.findById(cartId) //
 				.orElseGet(() -> new Cart(cartId)); // <3>
 

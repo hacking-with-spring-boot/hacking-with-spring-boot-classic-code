@@ -22,12 +22,12 @@ public class Sample1 {
 
 	void demo1() {
 
-		com.greglturnquist.hackingspringboot.classic.Cart cart = new com.greglturnquist.hackingspringboot.classic.Cart("My Cart");
+		Cart cart = new Cart("My Cart");
 
 		// tag::1[]
 		boolean found = false;
 
-		for (com.greglturnquist.hackingspringboot.classic.CartItem cartItem : cart.getCartItems()) {
+		for (CartItem cartItem : cart.getCartItems()) {
 			if (cartItem.getItem().getId().equals("5")) {
 				found = true;
 			}
@@ -43,7 +43,7 @@ public class Sample1 {
 
 	void demo2() {
 
-		com.greglturnquist.hackingspringboot.classic.Cart cart = new com.greglturnquist.hackingspringboot.classic.Cart("My Cart");
+		Cart cart = new Cart("My Cart");
 
 		// tag::2[]
 		if (cart.getCartItems().stream() //

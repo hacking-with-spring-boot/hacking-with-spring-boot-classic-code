@@ -18,22 +18,13 @@ package com.greglturnquist.hackingspringboot.classic;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 // tag::code[]
-public interface ItemRepository extends CrudRepository<Item, String> {
+public interface ItemRepository extends CrudRepository<Item, Integer> {
 
 	List<Item> findByNameContaining(String partialName);
 	// end::code[]
-
-	// tag::code-2[]
-	@Query("{ 'name' : ?0, 'age' :  }")
-	List<Item> findItemsForCustomerMonthlyReport();
-
-	@Query(sort = "{ 'age' : -1", value = "{ 'name' : 'TV tray', 'age' : }")
-	List<Item> findSortedStuffForWeeklyReport();
-	// end::code-2[]
 
 	// tag::code-3[]
 	// search by name

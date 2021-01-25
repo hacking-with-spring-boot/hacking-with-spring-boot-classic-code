@@ -15,9 +15,6 @@
  */
 package com.greglturnquist.hackingspringboot.classic;
 
-import com.greglturnquist.hackingspringboot.classic.Cart;
-import com.greglturnquist.hackingspringboot.classic.CartItem;
-
 /**
  * @author Greg Turnquist
  */

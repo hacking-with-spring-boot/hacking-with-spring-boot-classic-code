@@ -34,7 +34,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class HomeController {
 
 	private ItemRepository itemRepository;
-	private com.greglturnquist.hackingspringboot.classic.CartRepository cartRepository;
+	private CartRepository cartRepository;
 	private InventoryService inventoryService;
 
 	public HomeController(ItemRepository itemRepository, CartRepository cartRepository,
@@ -53,6 +53,8 @@ public class HomeController {
 		model.addAttribute("cart", //
 				this.cartRepository.findById("My Cart") // <4>
 						.orElseGet(() -> new Cart("My Cart")));
+
+		this.itemRepository.findAll().forEach(System.out::println);
 		return "home";
 	}
 	// end::2[]

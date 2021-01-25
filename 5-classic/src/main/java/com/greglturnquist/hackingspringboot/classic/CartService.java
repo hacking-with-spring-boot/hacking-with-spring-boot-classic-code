@@ -34,7 +34,7 @@ class CartService {
 		this.cartRepository = cartRepository;
 	}
 
-	Cart addToCart(String cartId, String id) { // <3>
+	Cart addToCart(String cartId, Integer id) { // <3>
 
 		Cart cart = this.cartRepository.findById("My Cart") //
 				.orElseGet(() -> new Cart("My Cart")); // <3>
@@ -47,7 +47,7 @@ class CartService {
 					return cart;
 				}) //
 				.orElseGet(() -> {
-					this.itemRepository.findById(cartId) //
+					this.itemRepository.findById(id) //
 							.map(item -> new CartItem(item)) //
 							.map(cartItem -> {
 								cart.getCartItems().add(cartItem);

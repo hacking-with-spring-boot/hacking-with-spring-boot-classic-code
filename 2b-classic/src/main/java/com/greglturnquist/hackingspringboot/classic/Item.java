@@ -16,20 +16,23 @@
 
 package com.greglturnquist.hackingspringboot.classic;
 
-import org.springframework.data.annotation.Id;
-
 import java.util.Objects;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 // tag::code[]
+@Entity
 public class Item {
 
-	private @Id String id;
+	private @Id @GeneratedValue Integer id;
 	private String name;
 	private String description;
 	private double price;
 	// end::code[]
 
-	private Item() {}
+	protected Item() {}
 
 	Item(String name, String description, double price) {
 		this.name = name;
@@ -37,11 +40,11 @@ public class Item {
 		this.price = price;
 	}
 
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

@@ -29,12 +29,12 @@ class CartService {
 	private final CartRepository cartRepository;
 
 	CartService(ItemRepository itemRepository, // <2>
-                CartRepository cartRepository) {
+			CartRepository cartRepository) {
 		this.itemRepository = itemRepository;
 		this.cartRepository = cartRepository;
 	}
 
-	Cart addToCart(String cartId, String id) { // <3>
+	Cart addToCart(String cartId, Integer id) { // <3>
 
 		Cart cart = this.cartRepository.findById(cartId) //
 				.orElseGet(() -> new Cart(cartId));

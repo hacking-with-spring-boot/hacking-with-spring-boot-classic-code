@@ -34,7 +34,7 @@ public class HomeController2 {
 
 	// tag::4[]
 	@PostMapping("/add/{id}")
-	String addToCart(@PathVariable String id) {
+	String addToCart(@PathVariable Integer id) {
 		this.cartService.addToCart("My Cart", id);
 		return "redirect:/";
 	}

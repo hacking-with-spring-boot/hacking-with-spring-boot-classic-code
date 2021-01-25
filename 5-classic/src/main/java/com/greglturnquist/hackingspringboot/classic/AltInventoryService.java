@@ -55,7 +55,7 @@ class AltInventoryService {
 	}
 
 	// tag::blocking[]
-	Cart addItemToCart(String cartId, String itemId) {
+	Cart addItemToCart(String cartId, Integer itemId) {
 
 		Cart cart = this.cartRepository.findById("My Cart") //
 				.orElseGet(() -> new Cart("My Cart")); // <3>
@@ -68,7 +68,7 @@ class AltInventoryService {
 					return cart;
 				}) //
 				.orElseGet(() -> {
-					this.itemRepository.findById(cartId) //
+					this.itemRepository.findById(itemId) //
 							.map(item -> new CartItem(item)) //
 							.map(cartItem -> {
 								cart.getCartItems().add(cartItem);

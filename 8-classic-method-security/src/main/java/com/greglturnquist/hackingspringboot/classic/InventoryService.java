@@ -54,8 +54,8 @@ class InventoryService {
 		this.itemRepository.deleteById(id);
 	}
 
-	Cart addItemToCart(String cartId, String itemId) {
-		Cart cart = this.cartRepository.findById("My Cart") //
+	Cart addItemToCart(String cartId, Integer itemId) {
+		Cart cart = this.cartRepository.findById(cartId) //
 				.orElseGet(() -> new Cart("My Cart")); // <3>
 
 		cart.getCartItems().stream() //
@@ -66,7 +66,7 @@ class InventoryService {
 					return cart;
 				}) //
 				.orElseGet(() -> {
-					this.itemRepository.findById(cartId) //
+					this.itemRepository.findById(itemId) //
 							.map(item -> new CartItem(item)) //
 							.map(cartItem -> {
 								cart.getCartItems().add(cartItem);
@@ -79,13 +79,13 @@ class InventoryService {
 		return this.cartRepository.save(cart);
 	}
 
-	Cart removeOneFromCart(String cartId, String itemId) {
+	Cart removeOneFromCart(String cartId, Integer itemId) {
 
-		Cart cart = this.cartRepository.findById("My Cart") //
+		Cart cart = this.cartRepository.findById(cartId) //
 				.orElseGet(() -> new Cart("My Cart")); // <3>
 
 		cart.getCartItems().stream() //
-				.filter(cartItem -> cartItem.getItem().getId().equals(cartId)) //
+				.filter(cartItem -> cartItem.getItem().getId().equals(itemId)) //
 				.findAny() //
 				.ifPresent(cartItem -> {
 					cartItem.decrement();
@@ -94,6 +94,8 @@ class InventoryService {
 		List<CartItem> updatedCartItems = cart.getCartItems().stream() //
 				.filter(cartItem -> cartItem.getQuantity() > 0) //
 				.collect(Collectors.toList());
+
+		cart.setCartItems(updatedCartItems);
 
 		return this.cartRepository.save(cart);
 	}

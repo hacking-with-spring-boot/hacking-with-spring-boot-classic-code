@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
 class CartService {
 
 	private final ItemRepository itemRepository;
-	private final com.greglturnquist.hackingspringboot.classic.CartRepository cartRepository;
+	private final CartRepository cartRepository;
 
 	CartService(ItemRepository itemRepository, // <2>
 			CartRepository cartRepository) {

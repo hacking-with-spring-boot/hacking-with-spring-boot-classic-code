@@ -18,34 +18,35 @@ package com.greglturnquist.hackingspringboot.classic;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 // tag::code[]
-public interface ItemRepository extends CrudRepository<Item, String> {
+public interface ItemRepository extends CrudRepository<Item, Integer> {
 
-    List<Item> findByNameContaining(String partialName);
-    // end::code[]
+	List<Item> findByNameContaining(String partialName);
+	// end::code[]
 
-    // tag::code-2[]
-    @Query("{ 'name' : ?0, 'age' :  }")
-    List<Item> findItemsForCustomerMonthlyReport();
+	// tag::code-2[]
+	@Query("{ 'name' : ?0, 'age' :  }")
+	List<Item> findItemsForCustomerMonthlyReport();
 
-    @Query(sort = "{ 'age' : -1", value = "{ 'name' : 'TV tray', 'age' : }")
-    List<Item> findSortedStuffForWeeklyReport();
-    // end::code-2[]
+	@Query("{ 'name' : 'TV tray', 'age' : }")
+	List<Item> findSortedStuffForWeeklyReport(Sort sort);
+	// end::code-2[]
 
-    // tag::code-3[]
-    // search by name
-    List<Item> findByNameContainingIgnoreCase(String partialName);
+	// tag::code-3[]
+	// search by name
+	List<Item> findByNameContainingIgnoreCase(String partialName);
 
-    // search by description
-    List<Item> findByDescriptionContainingIgnoreCase(String partialName);
+	// search by description
+	List<Item> findByDescriptionContainingIgnoreCase(String partialName);
 
-    // search by name AND description
-    List<Item> findByNameContainingAndDescriptionContainingAllIgnoreCase(String partialName, String partialDesc);
+	// search by name AND description
+	List<Item> findByNameContainingAndDescriptionContainingAllIgnoreCase(String partialName, String partialDesc);
 
-    // search by name OR description
-    List<Item> findByNameContainingOrDescriptionContainingAllIgnoreCase(String partialName, String partialDesc);
-    // end::code-3[]
+	// search by name OR description
+	List<Item> findByNameContainingOrDescriptionContainingAllIgnoreCase(String partialName, String partialDesc);
+	// end::code-3[]
 }

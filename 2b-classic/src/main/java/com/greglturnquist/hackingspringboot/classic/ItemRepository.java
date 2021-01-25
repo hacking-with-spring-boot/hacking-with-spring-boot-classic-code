@@ -18,7 +18,7 @@ package com.greglturnquist.hackingspringboot.classic;
 
 import java.util.List;
 
-import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 // tag::code[]
@@ -28,10 +28,10 @@ public interface ItemRepository extends CrudRepository<Item, String> {
 	// end::code[]
 
 	// tag::code-2[]
-	@Query("{ 'name' : ?0, 'age' : ?1 }")
+	@Query("select i from Item i where i.name = ?1 and i.age = ?2")
 	List<Item> findItemsForCustomerMonthlyReport(String name, int age);
 
-	@Query(sort = "{ 'age' : -1 }")
+	@Query("select i from Item i order by age")
 	List<Item> findSortedStuffForWeeklyReport();
 	// end::code-2[]
 

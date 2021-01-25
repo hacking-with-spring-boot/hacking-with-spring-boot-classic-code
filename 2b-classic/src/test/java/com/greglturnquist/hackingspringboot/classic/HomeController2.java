@@ -26,9 +26,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class HomeController2 {
 
-    private final com.greglturnquist.hackingspringboot.classic.CartService cartService;
+    private final CartService cartService;
 
-    public HomeController2(com.greglturnquist.hackingspringboot.classic.CartService cartService) {
+    public HomeController2(CartService cartService) {
         this.cartService = cartService;
     }
 

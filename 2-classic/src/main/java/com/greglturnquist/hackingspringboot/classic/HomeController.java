@@ -20,7 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -56,7 +55,7 @@ public class HomeController {
 
 	// tag::3[]
 	@PostMapping("/add/{id}") // <1>
-	String addToCart(@PathVariable String id) { // <2>
+	String addToCart(@PathVariable Integer id) { // <2>
 		Cart cart = this.cartRepository.findById("My Cart") //
 				.orElseGet(() -> new Cart("My Cart")); // <3>
 
@@ -91,7 +90,7 @@ public class HomeController {
 	}
 
 	@DeleteMapping("/delete/{id}")
-	String deleteItem(@PathVariable String id) {
+	String deleteItem(@PathVariable Integer id) {
 		this.itemRepository.deleteById(id);
 		return "redirect:/";
 	}

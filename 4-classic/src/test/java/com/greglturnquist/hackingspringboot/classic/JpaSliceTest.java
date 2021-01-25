@@ -21,13 +21,14 @@ import static org.assertj.core.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 /**
  * @author Greg Turnquist
  */
 // tag::code[]
-@DataMongoTest // <1>
-public class MongoDbSliceTest {
+@DataJpaTest // <1>
+public class JpaSliceTest {
 
 	@Autowired ItemRepository repository; // <2>
 

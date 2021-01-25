@@ -51,13 +51,13 @@ public class HomeController {
 
 	// tag::adjust-cart[]
 	@PostMapping("/add/{id}")
-	String addToCart(Authentication auth, @PathVariable String id) {
+	String addToCart(Authentication auth, @PathVariable Integer id) {
 		this.inventoryService.addItemToCart(cartName(auth), id);
 		return "redirect:/";
 	}
 
 	@DeleteMapping("/remove/{id}")
-	String removeFromCart(Authentication auth, @PathVariable String id) {
+	String removeFromCart(Authentication auth, @PathVariable Integer id) {
 		this.inventoryService.removeOneFromCart(cartName(auth), id);
 		return "redirect:/";
 	}

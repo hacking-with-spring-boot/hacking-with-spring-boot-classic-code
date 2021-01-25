@@ -29,7 +29,7 @@ public class RepositoryDatabaseLoader {
 	@Bean // <2>
 	CommandLineRunner initialize(BlockingItemRepository repository) { // <3>
 		return args -> { // <4>
-			repository.save(new com.greglturnquist.hackingspringboot.classic.Item("Alf alarm clock", "kids clock", 19.99));
+			repository.save(new Item("Alf alarm clock", "kids clock", 19.99));
 			repository.save(new Item("Smurf TV tray", "kids TV tray", 24.99));
 		};
 	}

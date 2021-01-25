@@ -16,16 +16,12 @@
 
 package com.greglturnquist.hackingspringboot.classic;
 
-import static org.springframework.data.mongodb.core.query.Criteria.*;
-import static org.springframework.data.mongodb.core.query.Query.*;
-
 import java.util.Collections;
 import java.util.List;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.ExampleMatcher.StringMatcher;
-import org.springframework.data.mongodb.core.FluentMongoOperations;
 import org.springframework.stereotype.Service;
 
 /**
@@ -37,14 +33,11 @@ class InventoryService {
 
 	private ItemRepository repository;
 	private ItemByExampleRepository exampleRepository;
-	private FluentMongoOperations fluentOperations;
 
 	InventoryService(ItemRepository repository, //
-			ItemByExampleRepository exampleRepository, //
-			FluentMongoOperations fluentOperations) {
+			ItemByExampleRepository exampleRepository) {
 		this.repository = repository;
 		this.exampleRepository = exampleRepository;
-		this.fluentOperations = fluentOperations;
 	}
 
 	List<Item> getItems() {
@@ -93,31 +86,6 @@ class InventoryService {
 		return exampleRepository.findAll(probe); // <7>
 	}
 	// end::code-3[]
-
-	// tag::code-4[]
-	List<Item> searchByFluentExample(String name, String description) {
-		return fluentOperations.query(Item.class) //
-				.matching(query(where("TV tray").is(name).and("Smurf").is(description))) //
-				.all();
-	}
-	// end::code-4[]
-
-	// tag::code-5[]
-	List<Item> searchByFluentExample(String name, String description, boolean useAnd) {
-		Item item = new Item(name, description, 0.0);
-
-		ExampleMatcher matcher = (useAnd //
-				? ExampleMatcher.matchingAll() //
-				: ExampleMatcher.matchingAny()) //
-						.withStringMatcher(StringMatcher.CONTAINING) //
-						.withIgnoreCase() //
-						.withIgnorePaths("price");
-
-		return fluentOperations.query(Item.class) //
-				.matching(query(byExample(Example.of(item, matcher)))) //
-				.all();
-	}
-	// end::code-5[]
 
 }
 // end::code[]

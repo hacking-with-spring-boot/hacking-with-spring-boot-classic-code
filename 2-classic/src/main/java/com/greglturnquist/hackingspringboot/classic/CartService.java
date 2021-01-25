@@ -33,7 +33,7 @@ class CartService {
 		this.cartRepository = cartRepository;
 	}
 
-	Cart addToCart(String cartId, String id) { // <3>
+	Cart addToCart(String cartId, Integer id) { // <3>
 
 		Cart cart = this.cartRepository.findById(cartId) //
 				.orElseGet(() -> new Cart(cartId));

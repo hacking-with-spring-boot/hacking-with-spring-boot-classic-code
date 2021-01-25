@@ -15,20 +15,23 @@
  */
 package com.greglturnquist.hackingspringboot.classic;
 
-import org.springframework.data.annotation.Id;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  * @author Greg Turnquist
  */
 // tag::code[]
+@Entity
 class Cart {
 
 	private @Id String id;
-	private List<CartItem> cartItems;
+	private @OneToMany(mappedBy = "item") List<CartItem> cartItems;
 
 	private Cart() {}
 

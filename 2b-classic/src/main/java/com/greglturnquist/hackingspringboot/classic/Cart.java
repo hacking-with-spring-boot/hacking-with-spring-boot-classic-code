@@ -15,28 +15,32 @@
  */
 package com.greglturnquist.hackingspringboot.classic;
 
-import org.springframework.data.annotation.Id;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  * @author Greg Turnquist
  */
 // tag::code[]
+@Entity
 class Cart {
 
 	private @Id String id;
-	private List<com.greglturnquist.hackingspringboot.classic.CartItem> cartItems;
+	private @OneToMany(mappedBy = "item") List<CartItem> cartItems;
 
-	private Cart() {}
+	protected Cart() {}
 
 	public Cart(String id) {
 		this(id, new ArrayList<>());
 	}
 
-	public Cart(String id, List<com.greglturnquist.hackingspringboot.classic.CartItem> cartItems) {
+	public Cart(String id, List<CartItem> cartItems) {
 		this.id = id;
 		this.cartItems = cartItems;
 	}
@@ -50,11 +54,11 @@ class Cart {
 		this.id = id;
 	}
 
-	public List<com.greglturnquist.hackingspringboot.classic.CartItem> getCartItems() {
+	public List<CartItem> getCartItems() {
 		return cartItems;
 	}
 
-	public void setCartItems(List<com.greglturnquist.hackingspringboot.classic.CartItem> cartItems) {
+	public void setCartItems(List<CartItem> cartItems) {
 		this.cartItems = cartItems;
 	}
 

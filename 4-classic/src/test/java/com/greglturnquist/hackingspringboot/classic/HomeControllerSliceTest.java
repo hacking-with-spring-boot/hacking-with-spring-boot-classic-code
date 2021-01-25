@@ -25,7 +25,6 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -52,8 +51,8 @@ public class HomeControllerSliceTest {
 	@Test
 	void homePage() {
 		when(inventoryService.getInventory()).thenReturn(Arrays.asList( //
-				new Item("id1", "name1", "desc1", 1.99), //
-				new Item("id2", "name2", "desc2", 9.99) //
+				new Item(1, "name1", "desc1", 1.99), //
+				new Item(2, "name2", "desc2", 9.99) //
 		));
 		when(inventoryService.getCart("My Cart")) //
 				.thenReturn(Optional.of(new Cart("My Cart")));
@@ -63,9 +62,9 @@ public class HomeControllerSliceTest {
 				.expectBody(String.class) //
 				.consumeWith(exchangeResult -> {
 					assertThat( //
-							exchangeResult.getResponseBody()).contains("action=\"/add/id1\"");
+							exchangeResult.getResponseBody()).contains("action=\"/add/1\"");
 					assertThat( //
-							exchangeResult.getResponseBody()).contains("action=\"/add/id2\"");
+							exchangeResult.getResponseBody()).contains("action=\"/add/2\"");
 				});
 	}
 }

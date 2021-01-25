@@ -53,13 +53,13 @@ public class HomeController {
 	}
 
 	@PostMapping("/add/{id}")
-	String addToCart(@PathVariable String id) {
+	String addToCart(@PathVariable Integer id) {
 		this.inventoryService.addItemToCart("My Cart", id);
 		return "redirect:/";
 	}
 
 	@DeleteMapping("/remove/{id}")
-	String removeFromCart(@PathVariable String id) {
+	String removeFromCart(@PathVariable Integer id) {
 		this.inventoryService.removeOneFromCart("My Cart", id);
 		return "redirect:/";
 	}
@@ -71,7 +71,7 @@ public class HomeController {
 	}
 
 	@DeleteMapping("/delete/{id}")
-	String deleteItem(@PathVariable String id) {
+	String deleteItem(@PathVariable Integer id) {
 		this.inventoryService.deleteItem(id);
 		return "redirect:/";
 	}

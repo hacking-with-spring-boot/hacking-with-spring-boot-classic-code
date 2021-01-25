@@ -49,14 +49,14 @@ class InventoryServiceUnitTest { // <2>
 	@BeforeEach // <1>
 	void setUp() {
 		// Define test data <2>
-		Item sampleItem = new Item("item1", "TV tray", "Alf TV tray", 19.99);
+		Item sampleItem = new Item(1, "TV tray", "Alf TV tray", 19.99);
 		CartItem sampleCartItem = new CartItem(sampleItem);
 		Cart sampleCart = new Cart("My Cart", Collections.singletonList(sampleCartItem));
 
 		// Define mock interactions provided
 		// by your collaborators <3>
 		when(cartRepository.findById(anyString())).thenReturn(Optional.empty());
-		when(itemRepository.findById(anyString())).thenReturn(Optional.of(sampleItem));
+		when(itemRepository.findById(anyInt())).thenReturn(Optional.of(sampleItem));
 		when(cartRepository.save(any(Cart.class))).thenReturn(sampleCart);
 
 		inventoryService = new InventoryService(itemRepository, cartRepository); // <4>
@@ -66,26 +66,26 @@ class InventoryServiceUnitTest { // <2>
 	// tag::test[]
 	@Test
 	void addItemToEmptyCartShouldProduceOneCartItem() { // <1>
-		Cart cart = inventoryService.addItemToCart("My Cart", "item1"); // <2>
+		Cart cart = inventoryService.addItemToCart("My Cart", 1); // <2>
 
 		assertThat(cart.getCartItems()).extracting(CartItem::getQuantity) //
 				.containsExactlyInAnyOrder(1); // <3>
 
 		assertThat(cart.getCartItems()).extracting(CartItem::getItem) //
-				.containsExactly(new Item("item1", "TV tray", "Alf TV tray", 19.99)); // <4>
+				.containsExactly(new Item(1, "TV tray", "Alf TV tray", 19.99)); // <4>
 	}
 	// end::test[]
 
 	// tag::test2[]
 	@Test
 	void alternativeWayToTest() { // <1>
-		Cart cart = inventoryService.addItemToCart("My Cart", "item1");
+		Cart cart = inventoryService.addItemToCart("My Cart", 1);
 
 		assertThat(cart.getCartItems()).extracting(CartItem::getQuantity) //
 				.containsExactlyInAnyOrder(1); // <5>
 
 		assertThat(cart.getCartItems()).extracting(CartItem::getItem) //
-				.containsExactly(new Item("item1", "TV tray", "Alf TV tray", 19.99)); // <6>
+				.containsExactly(new Item(1, "TV tray", "Alf TV tray", 19.99)); // <6>
 	}
 	// end::test2[]
 

@@ -29,9 +29,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 class InventoryController {
 
-	private com.greglturnquist.hackingspringboot.classic.InventoryService service;
+	private InventoryService service;
 
-	InventoryController(com.greglturnquist.hackingspringboot.classic.InventoryService service) {
+	InventoryController(InventoryService service) {
 		this.service = service;
 	}
 
