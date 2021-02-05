@@ -50,8 +50,9 @@ class InventoryServiceUnitTest { // <2>
 	void setUp() {
 		// Define test data <2>
 		Item sampleItem = new Item(1, "TV tray", "Alf TV tray", 19.99);
-		CartItem sampleCartItem = new CartItem(sampleItem);
+		CartItem sampleCartItem = new CartItem(sampleItem, null);
 		Cart sampleCart = new Cart("My Cart", Collections.singletonList(sampleCartItem));
+		sampleCartItem.setCart(sampleCart);
 
 		// Define mock interactions provided
 		// by your collaborators <3>

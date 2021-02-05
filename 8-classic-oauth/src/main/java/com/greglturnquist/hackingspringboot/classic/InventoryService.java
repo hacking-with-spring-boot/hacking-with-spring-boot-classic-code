@@ -59,7 +59,7 @@ class InventoryService {
 				.orElseGet(() -> new Cart(cartId)); // <3>
 
 		cart.getCartItems().stream() //
-				.filter(cartItem -> cartItem.getItem().getId().equals(cartId)) //
+				.filter(cartItem -> cartItem.getItem().getId().equals(itemId)) //
 				.findAny() //
 				.map(cartItem -> {
 					cartItem.increment();

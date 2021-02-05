@@ -16,8 +16,10 @@
 package com.greglturnquist.hackingspringboot.classic;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -30,19 +32,42 @@ import javax.persistence.ManyToOne;
 class CartItem {
 
 	private @Id @GeneratedValue Integer id;
-	private @ManyToOne Item item;
+	private @ManyToOne(fetch = FetchType.LAZY) Cart cart;
+	private @ManyToOne(fetch = FetchType.LAZY) Item item;
 	private int quantity;
 
 	protected CartItem() {}
 
-	CartItem(Item item) {
+	CartItem(Item item, Cart cart) {
 		this.item = item;
+		this.cart = cart;
 		this.quantity = 1;
 	}
+
 	// end::code[]
 
 	public void increment() {
 		this.quantity++;
+	}
+
+	public void decrement() {
+		this.quantity--;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Cart getCart() {
+		return cart;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
 	}
 
 	public Item getItem() {
@@ -65,19 +90,24 @@ class CartItem {
 	public boolean equals(Object o) {
 		if (this == o)
 			return true;
-		if (o == null || getClass() != o.getClass())
+		if (!(o instanceof CartItem))
 			return false;
 		CartItem cartItem = (CartItem) o;
-		return quantity == cartItem.quantity && Objects.equals(item, cartItem.item);
+		return quantity == cartItem.quantity && Objects.equals(id, cartItem.id) && Objects.equals(cart, cartItem.cart)
+				&& Objects.equals(item, cartItem.item);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(item, quantity);
+		return Objects.hash(id, cart, item, quantity);
 	}
 
 	@Override
 	public String toString() {
-		return "CartItem{" + "item=" + item + ", quantity=" + quantity + '}';
+
+		String cartId = Optional.ofNullable(this.cart).map(Cart::getId).orElse("NA");
+		Integer itemId = Optional.ofNullable(this.item).map(Item::getId).orElse(-1);
+
+		return "CartItem{" + "id=" + id + ", cartId=" + cartId + ", itemId=" + itemId + ", quantity=" + quantity + '}';
 	}
 }

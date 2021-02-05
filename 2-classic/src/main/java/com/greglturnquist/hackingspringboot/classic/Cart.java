@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -32,7 +33,7 @@ import javax.persistence.OneToMany;
 class Cart {
 
 	private @Id String id;
-	private @OneToMany(mappedBy = "item") List<CartItem> cartItems;
+	private @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true) List<CartItem> cartItems;
 
 	protected Cart() {}
 

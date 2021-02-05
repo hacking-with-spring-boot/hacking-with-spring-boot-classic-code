@@ -29,7 +29,7 @@ public class Item {
     private double price;
     // end::code[]
 
-    private Item() {
+    protected Item() {
     }
 
     Item(String name, String description, double price) {

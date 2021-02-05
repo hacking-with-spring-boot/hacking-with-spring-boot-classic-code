@@ -26,7 +26,7 @@ class CartItem {
 	private Item item;
 	private int quantity;
 
-	private CartItem() {}
+	protected CartItem() {}
 
 	CartItem(Item item) {
 		this.item = item;

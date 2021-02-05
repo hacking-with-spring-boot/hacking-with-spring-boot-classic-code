@@ -16,9 +16,7 @@
 
 package com.greglturnquist.hackingspringboot.classic;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -30,7 +28,6 @@ import org.springframework.stereotype.Service;
 class InventoryService {
 
 	private ItemRepository itemRepository;
-
 	private CartRepository cartRepository;
 
 	InventoryService(ItemRepository repository, CartRepository cartRepository) {
@@ -50,50 +47,42 @@ class InventoryService {
 		return this.itemRepository.save(newItem);
 	}
 
-	void deleteItem(String id) {
+	void deleteItem(Integer id) {
 		this.itemRepository.deleteById(id);
 	}
 
-	Cart addItemToCart(String cartId, String itemId) {
-		Cart cart = this.cartRepository.findById("My Cart") //
+	Cart addItemToCart(String cartId, Integer itemId) {
+		Cart cart = this.cartRepository.findById(cartId) //
 				.orElseGet(() -> new Cart("My Cart")); // <3>
 
 		cart.getCartItems().stream() //
-				.filter(cartItem -> cartItem.getItem().getId().equals(cartId)) //
+				.filter(cartItem -> cartItem.getItem().getId().equals(itemId)) //
 				.findAny() //
 				.map(cartItem -> {
 					cartItem.increment();
 					return cart;
 				}) //
 				.orElseGet(() -> {
-					this.itemRepository.findById(itemId) //
-							.map(item -> new CartItem(item)) //
-							.map(cartItem -> {
-								cart.getCartItems().add(cartItem);
-								return cart;
-							}) //
-							.orElseGet(() -> cart);
+					Item item = this.itemRepository.findById(itemId)
+							.orElseThrow(() -> new IllegalStateException("Can't seem to find Item type " + itemId));
+					cart.getCartItems().add(new CartItem(item, cart));
 					return cart;
 				});
 
 		return this.cartRepository.save(cart);
 	}
 
-	Cart removeOneFromCart(String cartId, String itemId) {
+	Cart removeOneFromCart(String cartId, Integer itemId) {
 
-		Cart cart = this.cartRepository.findById("My Cart") //
+		Cart cart = this.cartRepository.findById(cartId) //
 				.orElseGet(() -> new Cart("My Cart")); // <3>
 
 		cart.getCartItems().stream() //
-				.filter(cartItem -> cartItem.getItem().getId().equals(cartId)) //
+				.filter(cartItem -> cartItem.getItem().getId().equals(itemId)) //
 				.findAny() //
-				.ifPresent(cartItem -> {
-					cartItem.decrement();
-				});
+				.ifPresent(CartItem::decrement);
 
-		List<CartItem> updatedCartItems = cart.getCartItems().stream() //
-				.filter(cartItem -> cartItem.getQuantity() > 0) //
-				.collect(Collectors.toList());
+		cart.getCartItems().removeIf(cartItem -> cartItem.getQuantity() <= 0);
 
 		return this.cartRepository.save(cart);
 	}

@@ -50,18 +50,18 @@ class AltInventoryService {
 		return this.itemRepository.save(newItem);
 	}
 
-	void deleteItem(String id) {
+	void deleteItem(Integer id) {
 		this.itemRepository.deleteById(id);
 	}
 
 	// tag::blocking[]
 	Cart addItemToCart(String cartId, Integer itemId) {
 
-		Cart cart = this.cartRepository.findById("My Cart") //
+		Cart cart = this.cartRepository.findById(cartId) //
 				.orElseGet(() -> new Cart("My Cart")); // <3>
 
 		cart.getCartItems().stream() //
-				.filter(cartItem -> cartItem.getItem().getId().equals(cartId)) //
+				.filter(cartItem -> cartItem.getItem().getId().equals(itemId)) //
 				.findAny() //
 				.map(cartItem -> {
 					cartItem.increment();
@@ -69,7 +69,7 @@ class AltInventoryService {
 				}) //
 				.orElseGet(() -> {
 					this.itemRepository.findById(itemId) //
-							.map(item -> new CartItem(item)) //
+							.map(item -> new CartItem(item, cart)) //
 							.map(cartItem -> {
 								cart.getCartItems().add(cartItem);
 								return cart;
@@ -84,11 +84,11 @@ class AltInventoryService {
 
 	Cart removeOneFromCart(String cartId, String itemId) {
 
-		Cart cart = this.cartRepository.findById("My Cart") //
+		Cart cart = this.cartRepository.findById(cartId) //
 				.orElseGet(() -> new Cart("My Cart")); // <3>
 
 		cart.getCartItems().stream() //
-				.filter(cartItem -> cartItem.getItem().getId().equals(cartId)) //
+				.filter(cartItem -> cartItem.getItem().getId().equals(itemId)) //
 				.findAny() //
 				.ifPresent(cartItem -> {
 					cartItem.decrement();

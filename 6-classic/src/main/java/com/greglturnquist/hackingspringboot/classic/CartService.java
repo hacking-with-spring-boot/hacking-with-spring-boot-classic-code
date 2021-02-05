@@ -36,11 +36,11 @@ class CartService {
 
 	Cart addToCart(String cartId, Integer id) { // <3>
 
-		Cart cart = this.cartRepository.findById("My Cart") //
+		Cart cart = this.cartRepository.findById(cartId) //
 				.orElseGet(() -> new Cart("My Cart")); // <3>
 
 		cart.getCartItems().stream() //
-				.filter(cartItem -> cartItem.getItem().getId().equals(cartId)) //
+				.filter(cartItem -> cartItem.getItem().getId().equals(id)) //
 				.findAny() //
 				.map(cartItem -> {
 					cartItem.increment();

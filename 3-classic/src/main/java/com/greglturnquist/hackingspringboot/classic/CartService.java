@@ -34,22 +34,22 @@ class CartService {
 		this.cartRepository = cartRepository;
 	}
 
-	Cart addToCart(String cartId, Integer id) { // <3>
+	Cart addToCart(String cartId, Integer itemId) { // <3>
 
 		Cart cart = this.cartRepository.findById(cartId) //
 				.orElseGet(() -> new Cart(cartId));
 
 		cart.getCartItems().stream() //
-				.filter(cartItem -> cartItem.getItem().getId().equals(id)) //
+				.filter(cartItem -> cartItem.getItem().getId().equals(itemId)) //
 				.findAny() //
 				.map(cartItem -> {
 					cartItem.increment();
 					return cart;
 				}) //
 				.orElseGet(() -> {
-					Item item = this.itemRepository.findById(id) //
-							.orElseThrow(() -> new IllegalStateException("Can't seem to find Item type " + id));
-					cart.getCartItems().add(new CartItem(item));
+					Item item = this.itemRepository.findById(itemId) //
+							.orElseThrow(() -> new IllegalStateException("Can't seem to find Item type " + itemId));
+					cart.getCartItems().add(new CartItem(item, cart));
 					return cart;
 				});
 

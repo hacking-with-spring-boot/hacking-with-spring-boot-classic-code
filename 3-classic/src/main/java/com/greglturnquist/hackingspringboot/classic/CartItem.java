@@ -18,6 +18,7 @@ package com.greglturnquist.hackingspringboot.classic;
 import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -30,12 +31,13 @@ import javax.persistence.ManyToOne;
 class CartItem {
 
 	private @Id @GeneratedValue Integer id;
-	private @ManyToOne Item item;
+	private @ManyToOne(fetch = FetchType.LAZY) Cart cart;
+	private @ManyToOne(fetch = FetchType.LAZY) Item item;
 	private int quantity;
 
-	private CartItem() {}
+	protected CartItem() {}
 
-	CartItem(Item item) {
+	CartItem(Item item, Cart cart) {
 		this.item = item;
 		this.quantity = 1;
 	}
@@ -48,6 +50,22 @@ class CartItem {
 
 	public void decrement() {
 		this.quantity--;
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Cart getCart() {
+		return cart;
+	}
+
+	public void setCart(Cart cart) {
+		this.cart = cart;
 	}
 
 	public Item getItem() {

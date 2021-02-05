@@ -20,7 +20,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -74,13 +73,9 @@ public class HomeController {
 					return cart;
 				}) //
 				.orElseGet(() -> {
-					this.itemRepository.findById(id) //
-							.map(item -> new CartItem(item)) //
-							.map(cartItem -> {
-								cart.getCartItems().add(cartItem);
-								return cart;
-							}) //
-							.orElseGet(() -> cart);
+					Item item = this.itemRepository.findById(id)
+							.orElseThrow(() -> new IllegalStateException("Can't seem to find Item type " + id));
+					cart.getCartItems().add(new CartItem(item, cart));
 					return cart;
 				});
 

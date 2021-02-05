@@ -30,7 +30,7 @@ class Cart {
 	private @Id String id;
 	private List<CartItem> cartItems;
 
-	private Cart() {}
+	protected Cart() {}
 
 	public Cart(String id) {
 		this(id, new ArrayList<>());

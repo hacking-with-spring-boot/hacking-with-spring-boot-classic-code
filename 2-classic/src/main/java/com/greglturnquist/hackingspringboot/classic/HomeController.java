@@ -66,14 +66,10 @@ public class HomeController {
 					cartItem.increment();
 					return cart;
 				}) //
-				.orElseGet(() -> {
-					this.itemRepository.findById(id) // <5>
-							.map(item -> new CartItem(item)) //
-							.map(cartItem -> {
-								cart.getCartItems().add(cartItem);
-								return cart;
-							}) //
-							.orElseGet(() -> cart);
+				.orElseGet(() -> { // <5>
+					Item item = this.itemRepository.findById(id)
+							.orElseThrow(() -> new IllegalStateException("Can't seem to find Item type " + id));
+					cart.getCartItems().add(new CartItem(item, cart));
 					return cart;
 				});
 
