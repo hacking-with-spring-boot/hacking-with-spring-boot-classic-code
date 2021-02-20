@@ -50,7 +50,7 @@ public class ApiItemController {
 
 	// tag::one-item[]
 	@GetMapping("/api/items/{id}") // <1>
-	Optional<Item> findOne(@PathVariable String id) { // <2>
+	Optional<Item> findOne(@PathVariable Integer id) { // <2>
 		return this.repository.findById(id); // <3>
 	}
 	// end::one-item[]
@@ -72,7 +72,7 @@ public class ApiItemController {
 	@PutMapping("/api/items/{id}") // <1>
 	public ResponseEntity<?> updateItem( //
 			@RequestBody Item item, // <2>
-			@PathVariable String id) { // <3>
+			@PathVariable Integer id) { // <3>
 
 		Item newItem = new Item(id, item.getName(), item.getDescription(), // <4>
 				item.getPrice());

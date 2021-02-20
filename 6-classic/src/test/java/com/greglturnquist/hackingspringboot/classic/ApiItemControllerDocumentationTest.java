@@ -60,7 +60,7 @@ public class ApiItemControllerDocumentationTest {
 	@Test
 	void findingAllItems() {
 		when(repository.findAll()).thenReturn( // <1>
-				Arrays.asList(new Item("item-1", "Alf alarm clock", //
+				Arrays.asList(new Item(1, "Alf alarm clock", //
 						"nothing I really need", 19.99)));
 
 		this.webTestClient.get().uri("/api/items") //
@@ -75,7 +75,7 @@ public class ApiItemControllerDocumentationTest {
 	@Test
 	void postNewItem() {
 		when(repository.save(any())).thenReturn( //
-				new Item("1", "Alf alarm clock", "nothing important", 19.99));
+				new Item(1, "Alf alarm clock", "nothing important", 19.99));
 
 		this.webTestClient.post().uri("/api/items") // <1>
 				.bodyValue(new Item("Alf alarm clock", "nothing important", 19.99)) // <2>
@@ -89,10 +89,10 @@ public class ApiItemControllerDocumentationTest {
 	// tag::test3[]
 	@Test
 	void findOneItem() {
-		when(repository.findById("item-1")).thenReturn( //
-				Optional.of(new Item("item-1", "Alf alarm clock", "nothing I really need", 19.99))); // <1>
+		when(repository.findById(1)).thenReturn( //
+				Optional.of(new Item(1, "Alf alarm clock", "nothing I really need", 19.99))); // <1>
 
-		this.webTestClient.get().uri("/api/items/item-1") //
+		this.webTestClient.get().uri("/api/items/1") //
 				.exchange() //
 				.expectStatus().isOk() //
 				.expectBody() //

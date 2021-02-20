@@ -22,7 +22,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.reactive.server.WebTestClient;
@@ -38,26 +37,25 @@ import org.testcontainers.utility.DockerImageName;
  */
 // tag::setup[]
 @SpringBootTest // <1>
-@Testcontainers // <3>
-@ContextConfiguration // <4>
-@AutoConfigureMockMvc
+@Testcontainers // <2>
+@AutoConfigureMockMvc // <3>
 public class RabbitTest {
 
 	@Container static RabbitMQContainer container = new RabbitMQContainer(
-			DockerImageName.parse("rabbitmq").withTag("3.7.25-management-alpine")); // <5>
+			DockerImageName.parse("rabbitmq").withTag("3.7.25-management-alpine")); // <4>
 
-	WebTestClient webTestClient; // <6>
+	WebTestClient webTestClient;
 
-	@Autowired ItemRepository repository; // <7>
+	@Autowired ItemRepository repository; // <5>
 
-	@DynamicPropertySource // <8>
+	@DynamicPropertySource // <6>
 	static void configure(DynamicPropertyRegistry registry) {
 		registry.add("spring.rabbitmq.host", container::getContainerIpAddress);
 		registry.add("spring.rabbitmq.port", container::getAmqpPort);
 	}
 
 	@BeforeEach
-	void setUp(@Autowired MockMvc mockMvc) {
+	void setUp(@Autowired MockMvc mockMvc) { // <7>
 		this.webTestClient = MockMvcWebTestClient //
 				.bindTo(mockMvc) //
 				.build();
@@ -86,9 +84,12 @@ public class RabbitTest {
 
 		Iterable<Item> items = this.repository.findAll(); // <5>
 
-		assertThat(items).flatExtracting(Item::getName).containsExactly("Alf alarm clock", "Smurf TV tray");
-		assertThat(items).flatExtracting(Item::getDescription).containsExactly("nothing important", "nothing important");
-		assertThat(items).flatExtracting(Item::getPrice).containsExactly(19.99, 29.99);
+		assertThat(items).flatExtracting(Item::getName) //
+				.containsExactly("Alf alarm clock", "Smurf TV tray");
+		assertThat(items).flatExtracting(Item::getDescription) //
+				.containsExactly("nothing important", "nothing important");
+		assertThat(items).flatExtracting(Item::getPrice) //
+				.containsExactly(19.99, 29.99);
 	}
 	// end::spring-amqp-test[]
 

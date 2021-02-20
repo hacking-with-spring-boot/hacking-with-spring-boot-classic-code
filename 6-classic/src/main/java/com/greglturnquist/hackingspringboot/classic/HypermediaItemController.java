@@ -88,7 +88,7 @@ public class HypermediaItemController {
 
 	// tag::find-one[]
 	@GetMapping("/hypermedia/items/{id}")
-	EntityModel<Item> findOne(@PathVariable String id) {
+	EntityModel<Item> findOne(@PathVariable Integer id) {
 		HypermediaItemController controller = methodOn(HypermediaItemController.class); // <1>
 
 		Link selfLink = linkTo(controller.findOne(id)).withSelfRel(); // <2>
@@ -105,7 +105,7 @@ public class HypermediaItemController {
 	// tag::find-affordance[]
 	@GetMapping("/hypermedia/items/{id}/affordances")
 	// <1>
-	EntityModel<Item> findOneWithAffordances(@PathVariable String id) {
+	EntityModel<Item> findOneWithAffordances(@PathVariable Integer id) {
 		HypermediaItemController controller = //
 				methodOn(HypermediaItemController.class);
 
@@ -135,7 +135,7 @@ public class HypermediaItemController {
 	// tag::update-item[]
 	@PutMapping("/hypermedia/items/{id}") // <1>
 	public ResponseEntity<?> updateItem(@RequestBody EntityModel<Item> itemEntity, // <2>
-			@PathVariable String id) {
+			@PathVariable Integer id) {
 		Item content = itemEntity.getContent();
 		Item newItem = new Item(id, content.getName(), // <3>
 				content.getDescription(), content.getPrice());

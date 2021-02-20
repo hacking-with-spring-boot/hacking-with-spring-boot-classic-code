@@ -60,10 +60,10 @@ public class AffordancesItemControllerDocumentationTest {
 	// tag::affordances[]
 	@Test
 	void findSingleItemAffordances() {
-		when(repository.findById("item-1")).thenReturn(Optional.of( //
-				new Item("item-1", "Alf alarm clock", "nothing I really need", 19.99)));
+		when(repository.findById(1)).thenReturn(Optional.of( //
+				new Item(1, "Alf alarm clock", "nothing I really need", 19.99)));
 
-		this.webTestClient.get().uri("/affordances/items/item-1") // <1>
+		this.webTestClient.get().uri("/affordances/items/1") // <1>
 				.accept(MediaTypes.HAL_FORMS_JSON) // <2>
 				.exchange() //
 				.expectStatus().isOk() //
@@ -78,8 +78,8 @@ public class AffordancesItemControllerDocumentationTest {
 	void findAggregateRootItemAffordances() {
 		when(repository.findAll()).thenReturn(Arrays.asList( //
 				new Item("Alf alarm clock", "nothing I really need", 19.99)));
-		when(repository.findById((String) null)).thenReturn(Optional.of( //
-				new Item("item-1", "Alf alarm clock", "nothing I really need", 19.99)));
+		when(repository.findById((Integer) null)).thenReturn(Optional.of( //
+				new Item(1, "Alf alarm clock", "nothing I really need", 19.99)));
 
 		this.webTestClient.get().uri("/affordances/items") // <1>
 				.accept(MediaTypes.HAL_FORMS_JSON) // <2>

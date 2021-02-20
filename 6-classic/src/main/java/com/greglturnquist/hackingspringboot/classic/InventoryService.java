@@ -58,7 +58,7 @@ class InventoryService {
 		return this.itemRepository.save(newItem);
 	}
 
-	void deleteItem(String id) {
+	void deleteItem(Integer id) {
 		this.itemRepository.deleteById(id);
 	}
 
@@ -87,7 +87,7 @@ class InventoryService {
 		return this.cartRepository.save(cart);
 	}
 
-	Cart removeOneFromCart(String cartId, String itemId) {
+	Cart removeOneFromCart(String cartId, Integer itemId) {
 
 		Cart cart = this.cartRepository.findById(cartId) //
 				.orElseGet(() -> new Cart("My Cart")); // <3>
@@ -102,6 +102,8 @@ class InventoryService {
 		List<CartItem> updatedCartItems = cart.getCartItems().stream() //
 				.filter(cartItem -> cartItem.getQuantity() > 0) //
 				.collect(Collectors.toList());
+
+		cart.setCartItems(updatedCartItems);
 
 		return this.cartRepository.save(cart);
 	}

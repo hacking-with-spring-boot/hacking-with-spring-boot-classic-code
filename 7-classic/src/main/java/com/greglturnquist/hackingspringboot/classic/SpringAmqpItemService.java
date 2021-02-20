@@ -18,6 +18,7 @@ package com.greglturnquist.hackingspringboot.classic;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.rabbit.annotation.Exchange;
 import org.springframework.amqp.rabbit.annotation.Queue;
 import org.springframework.amqp.rabbit.annotation.QueueBinding;
@@ -43,10 +44,11 @@ public class SpringAmqpItemService {
 
 	// tag::listener[]
 	@RabbitListener( // <1>
-			ackMode = "MANUAL", //
 			bindings = @QueueBinding( // <2>
 					value = @Queue, // <3>
-					exchange = @Exchange("hacking-spring-boot"), // <4>
+					exchange = @Exchange(
+							value = "hacking-spring-boot", //
+							type = ExchangeTypes.TOPIC), // <4>
 					key = "new-items-spring-amqp")) // <5>
 	public void processNewItemsViaSpringAmqp(Item item) { // <6>
 		log.debug("Consuming => " + item);

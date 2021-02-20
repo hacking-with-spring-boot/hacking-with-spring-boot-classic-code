@@ -20,8 +20,6 @@ import static org.springframework.restdocs.hypermedia.HypermediaDocumentation.*;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.restdocs.webtestclient.WebTestClientRestDocumentation.*;
 
-import reactor.core.publisher.Mono;
-
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -67,9 +65,9 @@ public class HypermediaItemControllerDocumentationTest {
 				.thenReturn(Arrays.asList( //
 						new Item("Alf alarm clock", //
 								"nothing I really need", 19.99)));
-		when(repository.findById((String) null)) //
+		when(repository.findById((Integer) null)) //
 				.thenReturn(Optional.of( //
-						new Item("item-1", "Alf alarm clock", //
+						new Item(1, "Alf alarm clock", //
 								"nothing I really need", 19.99)));
 
 		this.webTestClient.get().uri("/hypermedia/items") //
@@ -85,10 +83,8 @@ public class HypermediaItemControllerDocumentationTest {
 	// @Test
 	void postNewItem() {
 		this.webTestClient.post().uri("/hypermedia/items") //
-				.body(Mono.just( //
-						new Item("item-1", "Alf alarm clock", //
-								"nothing I really need", 19.99)),
-						Item.class) //
+				.body(new Item(1, "Alf alarm clock", //
+						"nothing I really need", 19.99), Item.class) //
 				.exchange() //
 				.expectStatus().isCreated() //
 				.expectBody().isEmpty();
@@ -98,10 +94,10 @@ public class HypermediaItemControllerDocumentationTest {
 	// tag::test3[]
 	@Test
 	void findOneItem() {
-		when(repository.findById("item-1")).thenReturn(Optional.of( //
-				new Item("item-1", "Alf alarm clock", "nothing I really need", 19.99)));
+		when(repository.findById(1)).thenReturn(Optional.of( //
+				new Item(1, "Alf alarm clock", "nothing I really need", 19.99)));
 
-		this.webTestClient.get().uri("/hypermedia/items/item-1") //
+		this.webTestClient.get().uri("/hypermedia/items/1") //
 				.accept(MediaTypes.HAL_JSON) //
 				.exchange() //
 				.expectStatus().isOk() //

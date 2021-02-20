@@ -15,8 +15,10 @@
  */
 package com.greglturnquist.hackingspringboot.classic;
 
-import org.springframework.data.annotation.Id;
-
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,10 +27,12 @@ import java.util.Objects;
  * @author Greg Turnquist
  */
 // tag::code[]
+@Entity
 class Cart {
 
-	private @Id String id;
-	private List<CartItem> cartItems;
+	private @Id
+	String id;
+	private @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true) List<CartItem> cartItems;
 
 	protected Cart() {}
 

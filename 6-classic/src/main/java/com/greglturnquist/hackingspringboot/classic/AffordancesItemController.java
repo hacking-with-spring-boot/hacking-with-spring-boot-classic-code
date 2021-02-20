@@ -91,7 +91,7 @@ public class AffordancesItemController {
 
 	// tag::find-one[]
 	@GetMapping("/affordances/items/{id}") // <1>
-	EntityModel<Item> findOne(@PathVariable String id) {
+	EntityModel<Item> findOne(@PathVariable Integer id) {
 		AffordancesItemController controller = methodOn(AffordancesItemController.class); // <2>
 
 		Link selfLink = linkTo(controller.findOne(id)) //
@@ -123,7 +123,7 @@ public class AffordancesItemController {
 	// tag::update-item[]
 	@PutMapping("/affordances/items/{id}") // <1>
 	public ResponseEntity<?> updateItem(@RequestBody EntityModel<Item> itemEntity, // <2>
-			@PathVariable String id) {
+			@PathVariable Integer id) {
 		Item content = itemEntity.getContent();
 		Item newItem = new Item(id, content.getName(), // <3>
 				content.getDescription(), content.getPrice());

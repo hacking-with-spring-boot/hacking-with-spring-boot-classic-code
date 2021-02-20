@@ -18,6 +18,6 @@ package com.greglturnquist.hackingspringboot.classic;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface ItemRepository extends CrudRepository<Item, String> {
+public interface ItemRepository extends CrudRepository<Item, Integer> {
 
 }

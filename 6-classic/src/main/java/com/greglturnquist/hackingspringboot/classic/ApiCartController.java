@@ -54,12 +54,12 @@ public class ApiCartController {
 	}
 
 	@PostMapping("/api/carts/{cartId}/add/{itemId}")
-	Cart addToCart(@PathVariable String cartId, @PathVariable String itemId) {
+	Cart addToCart(@PathVariable String cartId, @PathVariable Integer itemId) {
 		return this.service.addItemToCart(cartId, itemId);
 	}
 
 	@DeleteMapping("/api/carts/{cartId}/remove/{itemId}")
-	Cart removeFromCart(@PathVariable String cartId, @PathVariable String itemId) {
+	Cart removeFromCart(@PathVariable String cartId, @PathVariable Integer itemId) {
 		return this.service.removeOneFromCart(cartId, itemId);
 	}
 }
