@@ -20,7 +20,6 @@ import java.util.Arrays;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -48,9 +47,9 @@ public class SecurityConfig {
 
 	// tag::users[]
 	@Bean
-	CommandLineRunner userLoader(MongoOperations operations) {
+	CommandLineRunner userLoader(UserRepository repository) {
 		return args -> {
-			operations.save(new com.greglturnquist.hackingspringboot.classic.User( //
+			repository.save(new com.greglturnquist.hackingspringboot.classic.User( //
 					"greg", "password", Arrays.asList("ROLE_USER")));
 		};
 	}

@@ -5,6 +5,10 @@ spring:
       client:
         registration:
           google:
-            client-id: 1234redacted5678opeh.apps.googleusercontent.com
+            client-id: 76769redactedoogleusercontent.com
             client-secret: ovj6b_va5fEB-EWEcE3FGOK6
 # end::oauth[]
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true

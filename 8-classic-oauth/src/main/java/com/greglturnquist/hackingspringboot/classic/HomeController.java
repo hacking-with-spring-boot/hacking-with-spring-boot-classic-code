@@ -43,18 +43,18 @@ public class HomeController {
 	// tag::user-cart[]
 	@GetMapping
 	String home( //
-			/*@RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient,
-			@AuthenticationPrincipal OAuth2User oauth2User,*/ Model model) { // <1>
+			@RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient,
+			@AuthenticationPrincipal OAuth2User oauth2User, Model model) { // <1>
 		model.addAttribute("items", this.inventoryService.getInventory());
-//		model.addAttribute("cart", this.inventoryService.getCart(cartName(oauth2User)) // <2>
-//				.orElseGet(() -> new Cart(cartName(oauth2User))));
+		model.addAttribute("cart", this.inventoryService.getCart(cartName(oauth2User)) // <2>
+				.orElseGet(() -> new Cart(cartName(oauth2User))));
 
 		// Fetching authentication details is a little more complex
-//		model.addAttribute("userName", oauth2User.getName());
-//		model.addAttribute("authorities", oauth2User.getAuthorities());
-//		model.addAttribute("clientName", //
-//				authorizedClient.getClientRegistration().getClientName());
-//		model.addAttribute("userAttributes", oauth2User.getAttributes());
+		model.addAttribute("userName", oauth2User.getName());
+		model.addAttribute("authorities", oauth2User.getAuthorities());
+		model.addAttribute("clientName", //
+				authorizedClient.getClientRegistration().getClientName());
+		model.addAttribute("userAttributes", oauth2User.getAttributes());
 
 		return "home";
 	}
@@ -62,13 +62,13 @@ public class HomeController {
 
 	// tag::adjust-cart[]
 	@PostMapping("/add/{id}")
-	String addToCart(@AuthenticationPrincipal OAuth2User oauth2User, @PathVariable String id) {
+	String addToCart(@AuthenticationPrincipal OAuth2User oauth2User, @PathVariable Integer id) {
 		this.inventoryService.addItemToCart(cartName(oauth2User), id);
 		return "redirect:/";
 	}
 
 	@DeleteMapping("/remove/{id}")
-	String removeFromCart(@AuthenticationPrincipal OAuth2User oauth2User, @PathVariable String id) {
+	String removeFromCart(@AuthenticationPrincipal OAuth2User oauth2User, @PathVariable Integer id) {
 		this.inventoryService.removeOneFromCart(cartName(oauth2User), id);
 		return "redirect:/";
 	}
@@ -83,7 +83,7 @@ public class HomeController {
 
 	@DeleteMapping("/{id}")
 	@ResponseBody
-	void deleteItem(@PathVariable String id) {
+	void deleteItem(@PathVariable Integer id) {
 		this.inventoryService.deleteItem(id);
 	}
 	// end::inventory[]

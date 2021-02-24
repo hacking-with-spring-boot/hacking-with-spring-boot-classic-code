@@ -23,7 +23,7 @@ import org.springframework.data.repository.CrudRepository;
  * @author Greg Turnquist
  */
 // tag::code[]
-public interface UserRepository extends CrudRepository<User, String> {
+public interface UserRepository extends CrudRepository<User, Integer> {
 
 	Optional<User> findByName(String name);
 }

@@ -46,17 +46,17 @@ import org.springframework.test.web.servlet.client.MockMvcWebTestClient;
 @AutoConfigureMockMvc
 public class ApiItemControllerTest {
 
-	WebTestClient webTestClient; // <2>
+	WebTestClient webTestClient;
 
 	@Autowired ItemRepository repository;
 
-	@Autowired HypermediaWebTestClientConfigurer webClientConfigurer; // <3>
+	@Autowired HypermediaWebTestClientConfigurer webClientConfigurer; // <2>
 
 	@BeforeEach
-	void setUp(@Autowired MockMvc mockMvc) {
+	void setUp(@Autowired MockMvc mockMvc) { // <3>
 		this.webTestClient = MockMvcWebTestClient //
 				.bindTo(mockMvc) //
-				.apply(webClientConfigurer) //
+				.apply(webClientConfigurer) // <4>
 				.build();
 	}
 	// end::register[]
@@ -75,7 +75,8 @@ public class ApiItemControllerTest {
 				.exchange() //
 				.expectStatus().isOk() //
 				.expectBody(String.class) //
-				.isEqualTo("{\"_links\":{\"self\":{\"href\":\"http://localhost/api\"},\"item\":{\"href\":\"http://localhost/api/items\"}}}");
+				.isEqualTo(
+						"{\"_links\":{\"self\":{\"href\":\"http://localhost/api\"},\"item\":{\"href\":\"http://localhost/api/items\"}}}");
 	}
 
 	// tag::add-inventory-without-role[]
@@ -120,7 +121,7 @@ public class ApiItemControllerTest {
 	@Test
 	@WithMockUser(username = "carol", roles = { "SOME_OTHER_ROLE" })
 	void deletingInventoryWithoutProperRoleFails() {
-		this.webTestClient.delete().uri("/api/items/delete/some-item") //
+		this.webTestClient.delete().uri("/api/items/delete/1") //
 				.exchange() //
 				.expectStatus().isForbidden();
 	}
@@ -128,7 +129,7 @@ public class ApiItemControllerTest {
 	@Test
 	@WithMockUser(username = "dan", roles = { "INVENTORY" })
 	void deletingInventoryWithProperRoleSucceeds() {
-		String id = this.repository.findByName("Alf alarm clock") //
+		Integer id = this.repository.findByName("Alf alarm clock") //
 				.map(Item::getId) //
 				.orElseThrow(() -> new IllegalStateException("Couldn't find Alf alarm clock."));
 

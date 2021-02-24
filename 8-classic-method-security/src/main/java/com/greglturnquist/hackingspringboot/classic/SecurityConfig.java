@@ -20,7 +20,6 @@ import java.util.Arrays;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -72,12 +71,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	static final String INVENTORY = "INVENTORY";
 
 	@Bean
-	CommandLineRunner userLoader(MongoOperations operations) {
+	CommandLineRunner userLoader(UserRepository repository) {
 		return args -> {
-			operations.save(new com.greglturnquist.hackingspringboot.classic.User( //
+			repository.save(new com.greglturnquist.hackingspringboot.classic.User( //
 					"greg", "password", Arrays.asList(role(USER))));
 
-			operations.save(new com.greglturnquist.hackingspringboot.classic.User( //
+			repository.save(new com.greglturnquist.hackingspringboot.classic.User( //
 					"manager", "password", Arrays.asList(role(USER), role(INVENTORY))));
 		};
 	}

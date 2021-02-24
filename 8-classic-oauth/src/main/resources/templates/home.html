@@ -44,7 +44,7 @@
         <td th:text="${item.price}"></td>
         <td>
             <form method="post" th:action="@{'/add/' + ${item.id}}">
-                <input type="submit" value="Add to Cart" />
+                <input type="submit" value="Add to Cart"/>
             </form>
         </td>
     </tr>
@@ -57,16 +57,16 @@
     <th>Id</th>
     <th>Name</th>
     <th>Quantity</th>
-<!--    <tr th:each="cartItem : ${cart.cartItems}">-->
-<!--        <td th:text="${cartItem.item.id}"></td>-->
-<!--        <td th:text="${cartItem.item.name}"></td>-->
-<!--        <td th:text="${cartItem.quantity}"></td>-->
-<!--        <td>-->
-<!--            <form th:method="delete" th:action="@{'/remove/' + ${cartItem.item.id}}">-->
-<!--                <input type="submit" value="-1"/>-->
-<!--            </form>-->
-<!--        </td>-->
-<!--    </tr>-->
+    <tr th:each="cartItem : ${cart.cartItems}">
+        <td th:text="${cartItem.item.id}"></td>
+        <td th:text="${cartItem.item.name}"></td>
+        <td th:text="${cartItem.quantity}"></td>
+        <td>
+            <form th:method="delete" th:action="@{'/remove/' + ${cartItem.item.id}}">
+                <input type="submit" value="-1"/>
+            </form>
+        </td>
+    </tr>
 </table>
 <!-- end::2[] -->
 

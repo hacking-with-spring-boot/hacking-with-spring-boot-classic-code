@@ -108,7 +108,7 @@ public class ApiItemController {
 
 	// tag::find-one[]
 	@GetMapping("/api/items/{id}")
-	EntityModel<Item> findOne(@PathVariable String id, Authentication auth) {
+	EntityModel<Item> findOne(@PathVariable Integer id, Authentication auth) {
 		ApiItemController controller = methodOn(ApiItemController.class);
 
 		Link selfLink = linkTo(controller.findOne(id, auth)).withSelfRel();
@@ -150,7 +150,7 @@ public class ApiItemController {
 	// tag::delete-item[]
 	@PreAuthorize("hasRole('" + SecurityConfig.INVENTORY + "')")
 	@DeleteMapping("/api/items/delete/{id}")
-	ResponseEntity<?> deleteItem(@PathVariable String id) {
+	ResponseEntity<?> deleteItem(@PathVariable Integer id) {
 		this.repository.deleteById(id);
 		return ResponseEntity.noContent().build();
 	}
@@ -159,7 +159,7 @@ public class ApiItemController {
 	// tag::update-item[]
 	@PutMapping("/api/items/{id}") // <1>
 	public ResponseEntity<?> updateItem(@RequestBody EntityModel<Item> itemEntity, // <2>
-			@PathVariable String id, Authentication auth) {
+			@PathVariable Integer id, Authentication auth) {
 		Item content = itemEntity.getContent();
 
 		Item newItem = new Item(id, content.getName(), // <3>

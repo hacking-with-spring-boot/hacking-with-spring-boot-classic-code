@@ -56,8 +56,8 @@ public class HomeControllerTest {
 	@WithMockUser(username = "ada")
 	void verifyLoginPageWorks() {
 		when(this.service.getInventory()).thenReturn(Arrays.asList( //
-				new Item("1", "Alf alarm clock", "kids clock", 19.99), //
-				new Item("2", "Smurf TV tray", "kids TV tray", 24.99)));
+				new Item(1, "Alf alarm clock", "kids clock", 19.99), //
+				new Item(2, "Smurf TV tray", "kids TV tray", 24.99)));
 
 		when(this.service.getCart(any())).thenReturn(Optional.of(new Cart("Test Cart")));
 

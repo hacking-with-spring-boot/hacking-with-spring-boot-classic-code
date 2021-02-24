@@ -50,7 +50,7 @@ class InventoryService {
 		return this.itemRepository.save(newItem);
 	}
 
-	void deleteItem(String id) {
+	void deleteItem(Integer id) {
 		this.itemRepository.deleteById(id);
 	}
 

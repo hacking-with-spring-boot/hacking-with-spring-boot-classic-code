@@ -15,25 +15,31 @@
  */
 package com.greglturnquist.hackingspringboot.classic;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import org.springframework.data.annotation.Id;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
  * @author Greg Turnquist
  */
 // tag::code[]
+@Entity
 public class User {
 
-	private @Id String id; // <1>
+	private @Id @GeneratedValue Integer id; // <1>
 	private String name;
 	private String password;
-	private List<String> roles;
+	private @ElementCollection(fetch = FetchType.EAGER) List<String> roles;
 
-	private User() {} // <2>
+	protected User() {} // <2>
 
-	public User(String id, String name, String password, List<String> roles) { // <3>
+	public User(Integer id, String name, String password, List<String> roles) { // <3>
 		this.id = id;
 		this.name = name;
 		this.password = password;
@@ -47,11 +53,11 @@ public class User {
 	}
 	// end::code[]
 
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -81,13 +87,13 @@ public class User {
 
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 		User user = (User) o;
-		return Objects.equals(id, user.id) &&
-			Objects.equals(name, user.name) &&
-			Objects.equals(password, user.password) &&
-			Objects.equals(roles, user.roles);
+		return Objects.equals(id, user.id) && Objects.equals(name, user.name) && Objects.equals(password, user.password)
+				&& Objects.equals(roles, user.roles);
 	}
 
 	@Override
@@ -97,11 +103,7 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User{" +
-			"id='" + id + '\'' +
-			", name='" + name + '\'' +
-			", password='" + "*******" + '\'' +
-			", roles=" + roles +
-			'}';
+		return "User{" + "id='" + id + '\'' + ", name='" + name + '\'' + ", password='" + "*******" + '\'' + ", roles="
+				+ roles + '}';
 	}
 }

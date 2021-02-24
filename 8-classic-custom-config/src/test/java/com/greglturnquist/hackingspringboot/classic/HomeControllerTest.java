@@ -102,7 +102,7 @@ public class HomeControllerTest {
 	@Test
 	@WithMockUser(username = "dan", roles = { "INVENTORY" })
 	void deletingInventoryWithProperRoleSucceeds() {
-		String id = this.repository.findByName("Alf alarm clock") //
+		Integer id = this.repository.findByName("Alf alarm clock") //
 				.map(Item::getId) //
 				.orElseThrow(() -> new IllegalStateException("Could find Alf alarm clock"));
 

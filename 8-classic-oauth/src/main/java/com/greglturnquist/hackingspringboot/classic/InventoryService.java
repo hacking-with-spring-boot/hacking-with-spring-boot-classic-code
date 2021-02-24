@@ -50,11 +50,11 @@ class InventoryService {
 		return this.itemRepository.save(newItem);
 	}
 
-	void deleteItem(String id) {
+	void deleteItem(Integer id) {
 		this.itemRepository.deleteById(id);
 	}
 
-	Cart addItemToCart(String cartId, String itemId) {
+	Cart addItemToCart(String cartId, Integer itemId) {
 		Cart cart = this.cartRepository.findById(cartId) //
 				.orElseGet(() -> new Cart(cartId)); // <3>
 
@@ -67,7 +67,7 @@ class InventoryService {
 				}) //
 				.orElseGet(() -> {
 					this.itemRepository.findById(itemId) //
-							.map(item -> new CartItem(item)) //
+							.map(item -> new CartItem(item, cart)) //
 							.map(cartItem -> {
 								cart.getCartItems().add(cartItem);
 								return cart;
@@ -79,7 +79,7 @@ class InventoryService {
 		return this.cartRepository.save(cart);
 	}
 
-	Cart removeOneFromCart(String cartId, String itemId) {
+	Cart removeOneFromCart(String cartId, Integer itemId) {
 		Cart cart = this.cartRepository.findById(cartId) //
 				.orElseGet(() -> new Cart(cartId)); // <3>
 
@@ -93,6 +93,8 @@ class InventoryService {
 		List<CartItem> updatedCartItems = cart.getCartItems().stream() //
 				.filter(cartItem -> cartItem.getQuantity() > 0) //
 				.collect(Collectors.toList());
+
+		cart.setCartItems(updatedCartItems);
 
 		return this.cartRepository.save(cart);
 	}
