@@ -28,10 +28,10 @@ public interface ItemRepository extends CrudRepository<Item, String> {
 	// end::code[]
 
 	// tag::code-2[]
-	@Query("select i from Item i where i.name = ?1 and i.age = ?2")
-	List<Item> findItemsForCustomerMonthlyReport(String name, int age);
+	@Query("select i from Item i where i.name = ?1 and i.price = ?2")
+	List<Item> findItemsForCustomerMonthlyReport(String name, int price);
 
-	@Query("select i from Item i order by age")
+	@Query("select i from Item i order by i.price")
 	List<Item> findSortedStuffForWeeklyReport();
 	// end::code-2[]
 
