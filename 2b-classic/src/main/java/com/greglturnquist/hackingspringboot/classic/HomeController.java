@@ -53,7 +53,9 @@ public class HomeController {
 				this.cartRepository.findById("My Cart") // <4>
 						.orElseGet(() -> new Cart("My Cart")));
 
-		this.itemRepository.findAll().forEach(System.out::println);
+		this.itemRepository //
+				.findAll() //
+				.forEach(System.out::println);
 		return "home";
 	}
 	// end::2[]
@@ -73,8 +75,9 @@ public class HomeController {
 					return cart;
 				}) //
 				.orElseGet(() -> {
-					Item item = this.itemRepository.findById(id)
-							.orElseThrow(() -> new IllegalStateException("Can't seem to find Item type " + id));
+					Item item = this.itemRepository.findById(id) //
+							.orElseThrow(() -> //
+									new IllegalStateException("Can't seem to find Item type " + id));
 					cart.getCartItems().add(new CartItem(item, cart));
 					return cart;
 				});

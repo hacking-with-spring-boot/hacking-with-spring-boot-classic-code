@@ -32,7 +32,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 public class SecurityConfig {
 	// end::code[]
 
-	// tag::reactive-user-details[]
+	// tag::classic-user-details[]
 	@Bean
 	public UserDetailsService userDetailsService(UserRepository repository) { // <1>
 		return username -> repository.findByName(username) // <2>
@@ -43,7 +43,7 @@ public class SecurityConfig {
 						.build())
 				.orElseThrow(() -> new UsernameNotFoundException("Could not find " + username)); // <4>
 	}
-	// end::reactive-user-details[]
+	// end::classic-user-details[]
 
 	// tag::users[]
 	@Bean
