@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.greglturnquist</groupId>
-	<artifactId>hacking-spring-boot-parent</artifactId>
+	<artifactId>hacking-with-spring-boot-classic-parent</artifactId>
 	<version>1.0.0.BUILD-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
@@ -42,6 +42,7 @@
 		<module>3-classic</module>
 		<module>4-classic</module>
 		<module>5-classic</module>
+		<module>5b-classic</module>
 		<module>6-classic</module>
 		<module>7-classic</module>
 		<module>8-classic-quick</module>
