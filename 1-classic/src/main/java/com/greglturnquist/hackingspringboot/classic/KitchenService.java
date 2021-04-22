@@ -27,7 +27,7 @@ import org.springframework.stereotype.Service;
 public class KitchenService {
 
 	/**
-	 * Generates continuous stream of dishes.
+	 * Generates a list of random dish(es).
 	 */
 	List<Dish> getDishes() {
 		return Arrays.asList(randomDish());
